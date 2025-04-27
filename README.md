@@ -21,7 +21,7 @@ A Next.js application for generating quizzes from documents using AI.
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/kwizify.git
+git clone https://github.com/eambari/kwizify.git
 cd kwizify
 ```
 
