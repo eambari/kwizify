@@ -1,3 +1,5 @@
+export * from './quizAttempt';
+
 export interface User {
     id: number;
     username: string;
