@@ -1,35 +1,30 @@
-'use client';
+import { useState } from "react";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useAuth } from '@/providers/AuthProvider';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Alert } from '@/components/ui/Alert';
+import Link from "next/link";
+import {useAuth} from "@/providers/AuthProvider";
+import {Card, CardContent} from "ui/Card";
+import {Label} from "ui/label";
+import {Input} from "ui/Input";
+import {Button} from "ui/Button";
 
-export const LoginForm: React.FC = () => {
+export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     const { login, isLoading, error, clearError } = useAuth();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [formErrors, setFormErrors] = useState({
-        username: '',
-        password: '',
-    });
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [formErrors, setFormErrors] = useState({ username: "", password: "" });
 
     const validateForm = (): boolean => {
         let isValid = true;
-        const newErrors = {
-            username: '',
-            password: '',
-        };
+        const newErrors = { username: "", password: "" };
 
         if (!username.trim()) {
-            newErrors.username = 'Username is required';
+            newErrors.username = "Username is required";
             isValid = false;
         }
 
-        if (!password) {
-            newErrors.password = 'Password is required';
+        if (!password.trim()) {
+            newErrors.password = "Password is required";
             isValid = false;
         }
 
@@ -47,83 +42,61 @@ export const LoginForm: React.FC = () => {
     };
 
     return (
-        <div className="w-full max-w-md space-y-8">
-            <div className="text-center">
-                <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-                    Log in to your account
-                </h2>
-                <p className="mt-2 text-sm text-gray-600">
-                    Or{' '}
-                    <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
-                        create a new account
-                    </Link>
-                </p>
-            </div>
+        <div className={className} {...props}>
+            <Card className="overflow-hidden">
+                <CardContent className="grid p-0 md:grid-cols-2">
+                    <form onSubmit={handleSubmit} className="p-6 md:p-8 flex flex-col gap-6">
+                        <div className="text-center">
+                            <h1 className="text-2xl font-bold">Welcome back</h1>
+                            <p className="text-sm text-muted-foreground">
+                                Login to your account
+                            </p>
+                        </div>
 
-            {error && (
-                <Alert variant="error" onClose={clearError}>
-                    {error}
-                </Alert>
-            )}
+                        <div className="grid gap-2">
+                            <Label htmlFor="username">Username</Label>
+                            <Input
+                                id="username"
+                                type="text"
+                                placeholder="Your username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
 
-            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                <div className="space-y-4">
-                    <Input
-                        label="Username"
-                        id="username"
-                        name="username"
-                        type="text"
-                        autoComplete="username"
-                        required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        error={formErrors.username}
-                    />
+                        <div className="grid gap-2">
+                            <Label htmlFor="password">Password</Label>
+                            <Input
+                                id="password"
+                                type="password"
+                                placeholder="********"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
 
-                    <Input
-                        label="Password"
-                        id="password"
-                        name="password"
-                        type="password"
-                        autoComplete="current-password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        error={formErrors.password}
-                    />
-                </div>
+                        <Button type="submit" className="w-full" disabled={isLoading} isLoading={isLoading}>
+                            Login
+                        </Button>
 
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                        <input
-                            id="remember-me"
-                            name="remember-me"
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        <p className="text-sm text-center">
+                            Don’t have an account?{" "}
+                            <Link href="/signup" className="text-blue-600 hover:underline">
+                                Sign up
+                            </Link>
+                        </p>
+                    </form>
+
+                    {/* You can add a fancy image or branding section on the right if desired */}
+                    <div className="relative hidden bg-muted md:block">
+                        <img
+                            src="https://w7.pngwing.com/pngs/1024/983/png-transparent-albert-einstein-thumbnail.png"
+                            alt="Image"
+                            className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                         />
-                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                            Remember me
-                        </label>
                     </div>
-
-                    <div className="text-sm">
-                        <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-                            Forgot your password?
-                        </Link>
-                    </div>
-                </div>
-
-                <div>
-                    <Button
-                        type="submit"
-                        className="w-full"
-                        isLoading={isLoading}
-                        disabled={isLoading}
-                    >
-                        Sign in
-                    </Button>
-                </div>
-            </form>
+                </CardContent>
+            </Card>
         </div>
     );
-};
+}

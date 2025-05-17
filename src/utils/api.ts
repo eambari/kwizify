@@ -1,6 +1,7 @@
 import { ApiError } from '@/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = 'https://kwizify-api.onrender.com';
+// const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 const getToken = (): string | null => {
     if (typeof window !== 'undefined') {

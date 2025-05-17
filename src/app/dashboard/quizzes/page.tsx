@@ -1,19 +1,19 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { AuthGuard } from '@/components/auth/AuthGuard';
-import { Loader } from '@/components/ui/Loader';
-import { Alert } from '@/components/ui/Alert';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { useAuth } from '@/providers/AuthProvider';
+import React, {useEffect, useState} from 'react';
+import {MainLayout} from '@/components/layout/MainLayout';
+import {AuthGuard} from '@/components/auth/AuthGuard';
+import {Loader} from '@/components/ui/Loader';
+import {Alert} from '@/components/ui/Alert';
+import {Button} from '@/components/ui/Button';
+import {Card} from 'ui/Card';
+import {useAuth} from '@/providers/AuthProvider';
 import quizService from '@/services/quizService';
-import { Quiz } from '@/types';
-import { QuizCard } from '@/components/quiz/QuizCard';
+import {Quiz} from '@/types';
+import {QuizCard} from '@/components/quiz/QuizCard';
 
 export default function QuizzesPage() {
-    const { user } = useAuth();
+    const {user} = useAuth();
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -65,7 +65,7 @@ export default function QuizzesPage() {
 
                         {isLoading ? (
                             <div className="flex justify-center my-12">
-                                <Loader size="lg" />
+                                <Loader size="lg"/>
                             </div>
                         ) : quizzes.length === 0 ? (
                             <Card className="p-6 text-center">
@@ -80,7 +80,7 @@ export default function QuizzesPage() {
                         ) : (
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                                 {quizzes.map((quiz) => (
-                                    <QuizCard key={quiz.id} quiz={quiz} />
+                                    <QuizCard key={quiz.id} quiz={quiz}/>
                                 ))}
                             </div>
                         )}

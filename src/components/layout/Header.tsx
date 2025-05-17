@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/providers/AuthProvider';
-import { Button } from '../ui/Button';
+import { Button } from 'ui/Button';
 import {KwizifyLogo} from "@/content/KwizifyLogo";
 
 export const Header: React.FC = () => {

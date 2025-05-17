@@ -1,9 +1,7 @@
 import React from 'react';
-import { MainLayout } from '@/components/layout/MainLayout';
 
 export default function PrivacyPage() {
     return (
-        <MainLayout>
             <div className="bg-gray-50 py-16">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="bg-white shadow-md rounded-lg p-8">
@@ -102,6 +100,5 @@ export default function PrivacyPage() {
                     </div>
                 </div>
             </div>
-        </MainLayout>
     );
 }

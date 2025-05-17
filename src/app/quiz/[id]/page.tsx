@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { QuizPlayer } from '@/components/quiz/QuizPlayer';
-import { Card } from '@/components/ui/Card';
+import { Card } from 'ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Loader } from '@/components/ui/Loader';
 import { Alert } from '@/components/ui/Alert';
