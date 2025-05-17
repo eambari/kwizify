@@ -156,7 +156,7 @@ export default function DashboardPage() {
                                     <Card className="p-6 text-center">
                                         <h3 className="text-lg font-medium text-gray-900 mb-2">No quizzes yet</h3>
                                         <p className="text-gray-500 mb-4">
-                                            You haven't created any quizzes yet. Get started by creating your first quiz.
+                                            You haven&#39;t created any quizzes yet. Get started by creating your first quiz.
                                         </p>
                                         <Button href="/dashboard/create">
                                             Create Your First Quiz

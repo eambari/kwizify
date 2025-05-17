@@ -197,7 +197,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
     if (!quiz.questions || quiz.questions.length === 0) {
         return (
             <Card className="p-6">
-                <Alert variant="info">This quiz doesn't have any questions.</Alert>
+                <Alert variant="info">This quiz doesn&#39;t have any questions.</Alert>
             </Card>
         );
     }
@@ -430,7 +430,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
             >
                 <div className="p-4">
                     <p className="mb-4">Are you sure you want to submit your quiz?</p>
-                    <p className="mb-4 text-gray-600">You've answered {selectedAnswers.filter(a => a !== '').length} out of {quiz.questions.length} questions.</p>
+                    <p className="mb-4 text-gray-600">You&#39;ve answered {selectedAnswers.filter(a => a !== '').length} out of {quiz.questions.length} questions.</p>
                     <p className="mb-6 text-gray-600">Time elapsed: {formatTime(elapsedTime)}</p>
 
                     <div className="flex space-x-4">
