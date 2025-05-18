@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Alert } from '@/components/ui/Alert';
-import { Modal } from '@/components/ui/Modal';
-import { Quiz } from '@/types';
-import { useAuth } from '@/providers/AuthProvider';
+import React, {useState, useEffect, useRef} from 'react';
+import {Card} from '@/components/ui/Card';
+import {Button} from '@/components/ui/Button';
+import {Alert} from '@/components/ui/Alert';
+import {Modal} from '@/components/ui/Modal';
+import {Quiz} from '@/types';
+import {useAuth} from '@/providers/AuthProvider';
 import quizAttemptService from '@/services/quizAttemptService';
 import Tooltip from '@/components/ui/Tooltip';
 
@@ -22,8 +22,8 @@ interface QuizResults {
     time_spent_seconds: number;
 }
 
-export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
-    const { user } = useAuth();
+export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
+    const {user} = useAuth();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
     const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
@@ -114,16 +114,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
     };
 
     const confirmSubmitQuiz = () => {
-        // Check if all questions have answers
-        const unansweredQuestions = selectedAnswers.filter(a => a === '').length;
-
-        if (unansweredQuestions > 0) {
-            if (window.confirm(`You have ${unansweredQuestions} unanswered questions. Are you sure you want to submit?`)) {
-                handleFinishQuiz();
-            }
-        } else {
-            setShowConfirmation(true);
-        }
+        setShowConfirmation(true);
     };
 
     const handleFinishQuiz = async () => {
@@ -223,7 +214,8 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
                 <div className="text-center mb-8">
                     <div className="text-5xl font-bold text-blue-600 mb-3">{Math.round(quizResults.score)}%</div>
                     <p className="text-gray-600">
-                        You answered {quizResults.correct_answers} out of {quizResults.total_questions} questions correctly
+                        You answered {quizResults.correct_answers} out of {quizResults.total_questions} questions
+                        correctly
                     </p>
                     <p className="text-gray-500 mt-2">
                         Time taken: {formatTime(quizResults.time_spent_seconds)}
@@ -237,7 +229,8 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
                     </div>
 
                     <div className="bg-red-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-red-600">{quizResults.total_questions - quizResults.correct_answers}</div>
+                        <div
+                            className="text-2xl font-bold text-red-600">{quizResults.total_questions - quizResults.correct_answers}</div>
                         <p className="text-red-800">Incorrect</p>
                     </div>
                 </div>
@@ -270,9 +263,11 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
                     <div className="flex items-center space-x-4">
                         <div className="flex items-center">
                             <Tooltip content="Time elapsed since starting the quiz">
-                                <div className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-full flex items-center">
+                                <div
+                                    className="text-sm font-medium bg-gray-100 px-3 py-1 rounded-full flex items-center">
                                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     {formatTime(elapsedTime)}
                                 </div>
@@ -281,9 +276,9 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ quiz }) => {
 
                         <div>
                             <Tooltip content="Questions answered">
-                <span className="text-sm font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
-                  {selectedAnswers.filter(a => a !== '').length}/{quiz.questions.length}
-                </span>
+                    <span className="text-sm font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                      {selectedAnswers.filter(a => a !== '').length}/{quiz.questions.length}
+                    </span>
                             </Tooltip>
                         </div>
                     </div>

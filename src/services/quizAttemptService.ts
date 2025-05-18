@@ -7,7 +7,7 @@ const quizAttemptService = {
     startQuizAttempt: async (quizId: number, userId: number): Promise<{ attempt_id: number, started_at: string }> => {
         try {
             const response = await fetchApi<{ attempt_id: number, started_at: string }>(
-                `/api/quiz-attempts/start?quiz_id=${quizId}&user_id=${userId}`,
+                `/api/quiz/quiz-attempts/start?quiz_id=${quizId}&user_id=${userId}`,
                 {
                     method: 'POST',
                 }
@@ -47,7 +47,7 @@ const quizAttemptService = {
                 total_questions: number,
                 time_spent_seconds: number
             }>(
-                `/api/quiz-attempts/submit?${queryParams}`,
+                `/api/quiz/quiz-attempts/submit?${queryParams}`,
                 {
                     method: 'POST',
                     body: JSON.stringify(selectedOptions),
@@ -84,7 +84,7 @@ const quizAttemptService = {
                 time_spent_seconds: number | null,
                 score: number | null
             }>>(
-                `/api/quiz-attempts/user/${userId}`,
+                `/api/quiz/quiz-attempts/user/${userId}`,
                 {
                     method: 'GET',
                 }
@@ -145,7 +145,7 @@ const quizAttemptService = {
                     }>
                 }>
             }>(
-                `/api/quiz-attempts/${attemptId}`,
+                `/api/quiz/quiz-attempts/${attemptId}`,
                 {
                     method: 'GET',
                 }
