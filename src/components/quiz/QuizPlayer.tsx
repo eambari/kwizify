@@ -22,6 +22,8 @@ interface QuizResults {
     time_spent_seconds: number;
 }
 
+type QuestionDifficulty = 'EASY' | 'MEDIUM' | 'HARD';
+
 export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
     const {user} = useAuth();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -34,6 +36,8 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
     const [startTime, setStartTime] = useState<Date | null>(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    // Question difficulties array
+    const [questionDifficulties, setQuestionDifficulties] = useState<QuestionDifficulty[]>([]);
 
     // Timer related state
     const [elapsedTime, setElapsedTime] = useState(0);
@@ -58,6 +62,13 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
                 // Initialize selectedAnswers array with empty values for each question
                 if (quiz.questions) {
                     setSelectedAnswers(new Array(quiz.questions.length).fill(''));
+
+                    // Generate random difficulties for each question
+                    const difficulties: QuestionDifficulty[] = quiz.questions.map(() => {
+                        const randomNum = Math.floor(Math.random() * 3);
+                        return ['EASY', 'MEDIUM', 'HARD'][randomNum] as QuestionDifficulty;
+                    });
+                    setQuestionDifficulties(difficulties);
                 }
             } catch (error) {
                 setErrorMessage(`Failed to start quiz: ${error instanceof Error ? error.message : String(error)}`);
@@ -68,11 +79,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
 
         // Start the timer
         timerRef.current = setInterval(() => {
-            if (startTime) {
-                const now = new Date();
-                const diff = Math.floor((now.getTime() - startTime.getTime()) / 1000);
-                setElapsedTime(diff);
-            }
+            setElapsedTime(prev => prev + 1); // Increment by 1 second each time
         }, 1000);
 
         // Clean up timer on unmount
@@ -160,18 +167,26 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
             const response = await quizAttemptService.startQuizAttempt(quiz.id, user.id);
             setAttemptId(response.attempt_id);
             setStartTime(new Date());
+            setElapsedTime(0);
 
             // Reset selected answers
             if (quiz.questions) {
                 setSelectedAnswers(new Array(quiz.questions.length).fill(''));
+
+                // Generate new random difficulties
+                const difficulties: QuestionDifficulty[] = quiz.questions.map(() => {
+                    const randomNum = Math.floor(Math.random() * 3);
+                    return ['EASY', 'MEDIUM', 'HARD'][randomNum] as QuestionDifficulty;
+                });
+                setQuestionDifficulties(difficulties);
             }
 
-            // Restart timer
-            setElapsedTime(0);
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+            }
+
             timerRef.current = setInterval(() => {
-                const now = new Date();
-                const diff = Math.floor((now.getTime() - startTime!.getTime()) / 1000);
-                setElapsedTime(diff);
+                setElapsedTime(prev => prev + 1);
             }, 1000);
         } catch (error) {
             setErrorMessage(`Failed to restart quiz: ${error instanceof Error ? error.message : String(error)}`);
@@ -183,6 +198,19 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    };
+
+    const getDifficultyColor = (difficulty: QuestionDifficulty): string => {
+        switch(difficulty) {
+            case 'EASY':
+                return 'bg-green-100 text-green-800';
+            case 'MEDIUM':
+                return 'bg-yellow-100 text-yellow-800';
+            case 'HARD':
+                return 'bg-red-100 text-red-800';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
     };
 
     if (!quiz.questions || quiz.questions.length === 0) {
@@ -261,6 +289,16 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
                     </h2>
 
                     <div className="flex items-center space-x-4">
+                        {questionDifficulties.length > 0 && (
+                            <div>
+                                <Tooltip content={`Question difficulty: ${questionDifficulties[currentQuestionIndex]}`}>
+                                    <span className={`text-sm font-medium px-3 py-1 rounded-full ${getDifficultyColor(questionDifficulties[currentQuestionIndex])}`}>
+                                        {questionDifficulties[currentQuestionIndex]}
+                                    </span>
+                                </Tooltip>
+                            </div>
+                        )}
+
                         <div className="flex items-center">
                             <Tooltip content="Time elapsed since starting the quiz">
                                 <div
@@ -276,9 +314,9 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
 
                         <div>
                             <Tooltip content="Questions answered">
-                    <span className="text-sm font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
-                      {selectedAnswers.filter(a => a !== '').length}/{quiz.questions.length}
-                    </span>
+                                <span className="text-sm font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                                    {selectedAnswers.filter(a => a !== '').length}/{quiz.questions.length}
+                                </span>
                             </Tooltip>
                         </div>
                     </div>

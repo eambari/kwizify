@@ -1,10 +1,11 @@
-import { fetchApi, uploadFile } from '@/utils/api';
+import {fetchApi, uploadFile} from '@/utils/api';
 import {
     Quiz,
     KeywordResponse,
     GeneratedQuestion,
     SaveQuizRequest
 } from '@/types';
+import {toast} from "sonner";
 
 const quizService = {
     extractKeywords: async (file: File): Promise<KeywordResponse> => {
@@ -45,7 +46,7 @@ const quizService = {
         try {
             console.log('Sending quiz data:', JSON.stringify(quizData, null, 2));
 
-            const { quiz_title, quiz_description, user_id, questions } = quizData;
+            const {quiz_title, quiz_description, user_id, questions} = quizData;
 
             const url = `/api/keywords/save-quiz/?quiz_title=${encodeURIComponent(quiz_title)}&quiz_description=${encodeURIComponent(quiz_description)}&user_id=${user_id}`;
 
@@ -59,6 +60,11 @@ const quizService = {
                     }
                 }
             );
+
+            toast.success('Quiz Saved Successfully!', {
+                description: 'Happy learning! 🎉',
+                richColors: true,
+            });
 
             return response;
         } catch (error) {

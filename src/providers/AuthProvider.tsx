@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import authService from '@/services/authService';
 import { isTokenValid } from '@/utils/token';
 import { User, LoginCredentials, SignupCredentials, ApiError } from '@/types';
+import {toast} from "sonner";
 
 interface AuthContextState {
     user: User | null;
@@ -64,10 +65,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             await authService.login(credentials);
             const currentUser = await authService.getCurrentUser();
             setUser(currentUser);
+
+            toast.success(`Welcome back, ${currentUser.username || 'user'}!`, {
+                description: 'You have successfully logged in.',
+                richColors: true,
+            });
+
             router.push('/dashboard');
         } catch (err) {
             const apiError = err as ApiError;
             setError(apiError.message || 'Login failed. Please check your credentials.');
+
+            toast.error(apiError.message || 'Login failed. Please check your credentials.', {
+                richColors: true,
+            });
         } finally {
             setIsLoading(false);
         }
@@ -83,12 +94,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 username: credentials.username,
                 password: credentials.password,
             });
+
             const currentUser = await authService.getCurrentUser();
             setUser(currentUser);
+
+            toast.success(`Nice to see you, ${currentUser.username || 'learner'}!`, {
+                description: 'Happy learning 🎉',
+                richColors: true,
+            });
+
             router.push('/dashboard');
         } catch (err) {
             const apiError = err as ApiError;
             setError(apiError.message || 'Signup failed. Please try again.');
+
+            toast.error(apiError.message || 'Signup failed. Please try again.', {
+                richColors: true,
+            });
         } finally {
             setIsLoading(false);
         }
@@ -97,6 +119,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = (): void => {
         authService.logout();
         setUser(null);
+        toast.info('Logged out successfully.', {
+            description: 'Hope to see you again soon!',
+            richColors: true,
+        });
         router.push('/');
     };
 

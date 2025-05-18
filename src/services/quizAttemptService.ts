@@ -1,5 +1,6 @@
 // src/services/quizAttemptService.ts
 import { fetchApi } from '@/utils/api';
+import {toast} from "sonner";
 
 // Quiz attempt service for handling quiz attempts and submissions
 const quizAttemptService = {
@@ -57,8 +58,14 @@ const quizAttemptService = {
                 }
             );
 
+            toast.success('Quiz submitted successfully.', {
+                richColors: true,
+            });
             return response;
         } catch (error) {
+            toast.error('Error submitting quiz attempt :(', {
+                richColors: true,
+            });
             console.error('Error submitting quiz attempt:', error);
             throw error;
         }

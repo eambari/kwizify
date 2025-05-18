@@ -2,18 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { AuthGuard } from '@/components/auth/AuthGuard';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Loader } from '@/components/ui/Loader';
-import { Alert } from '@/components/ui/Alert';
-import { Tabs, TabList, Tab, TabPanel } from '@/components/ui/Tabs';
 import { useAuth } from '@/providers/AuthProvider';
 import quizService from '@/services/quizService';
 import { Quiz } from '@/types';
-import { QuizCard } from '@/components/quiz/QuizCard';
-import { QuizAttemptHistory } from '@/components/quiz/QuizAttemptHistory';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Alert } from '@/components/ui/Alert';
+import { Loader } from '@/components/ui/Loader';
+import {AuthGuard} from "@/components/auth/AuthGuard";
+import {MainLayout} from "@/components/layout/MainLayout";
+import {QuizCard} from "@/components/quiz/QuizCard";
+import {QuizAttemptHistory} from "@/components/quiz/QuizAttemptHistory";
 
 export default function DashboardPage() {
     const { user } = useAuth();
@@ -137,55 +136,74 @@ export default function DashboardPage() {
                             </Card>
                         </div>
 
-                        <Tabs index={activeTab} onChange={setActiveTab}>
-                            <TabList className="mb-4 flex border-b border-gray-200">
-                                <Tab className="px-4 py-2 font-medium text-sm border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700 cursor-pointer">
+                        <div className="mb-8">
+                            {/* Tab Headers */}
+                            <div className="flex border-b border-gray-200">
+                                <button
+                                    onClick={() => setActiveTab(0)}
+                                    className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                                        activeTab === 0
+                                            ? 'border-blue-500 text-blue-600'
+                                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                                    } cursor-pointer`}
+                                >
                                     Your Quizzes
-                                </Tab>
-                                <Tab className="px-4 py-2 font-medium text-sm border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700 cursor-pointer">
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab(1)}
+                                    className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+                                        activeTab === 1
+                                            ? 'border-blue-500 text-blue-600'
+                                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                                    } cursor-pointer`}
+                                >
                                     Quiz Attempts
-                                </Tab>
-                            </TabList>
+                                </button>
+                            </div>
 
-                            <TabPanel>
-                                {isLoading ? (
-                                    <div className="flex justify-center my-12">
-                                        <Loader size="lg" />
-                                    </div>
-                                ) : quizzes.length === 0 ? (
-                                    <Card className="p-6 text-center">
-                                        <h3 className="text-lg font-medium text-gray-900 mb-2">No quizzes yet</h3>
-                                        <p className="text-gray-500 mb-4">
-                                            You haven&#39;t created any quizzes yet. Get started by creating your first quiz.
-                                        </p>
-                                        <Button href="/dashboard/create">
-                                            Create Your First Quiz
-                                        </Button>
-                                    </Card>
-                                ) : (
-                                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                        {quizzes.slice(0, 6).map((quiz) => (
-                                            <QuizCard key={quiz.id} quiz={quiz} />
-                                        ))}
-                                    </div>
+                            <div className="pt-6">
+                                {activeTab === 0 && (
+                                    <>
+                                        {isLoading ? (
+                                            <div className="flex justify-center my-12">
+                                                <Loader size="lg" />
+                                            </div>
+                                        ) : quizzes.length === 0 ? (
+                                            <Card className="p-6 text-center">
+                                                <h3 className="text-lg font-medium text-gray-900 mb-2">No quizzes yet</h3>
+                                                <p className="text-gray-500 mb-4">
+                                                    You haven&#39;t created any quizzes yet. Get started by creating your first quiz.
+                                                </p>
+                                                <Button href="/dashboard/create">
+                                                    Create Your First Quiz
+                                                </Button>
+                                            </Card>
+                                        ) : (
+                                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                                {quizzes.slice(0, 6).map((quiz) => (
+                                                    <QuizCard key={quiz.id} quiz={quiz} />
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {quizzes.length > 6 && (
+                                            <div className="mt-6 text-center">
+                                                <Link
+                                                    href="/dashboard/quizzes"
+                                                    className="text-blue-600 hover:text-blue-800 font-medium"
+                                                >
+                                                    View All Quizzes
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </>
                                 )}
 
-                                {quizzes.length > 6 && (
-                                    <div className="mt-6 text-center">
-                                        <Link
-                                            href="/dashboard/quizzes"
-                                            className="text-blue-600 hover:text-blue-800 font-medium"
-                                        >
-                                            View All Quizzes
-                                        </Link>
-                                    </div>
+                                {activeTab === 1 && (
+                                    <QuizAttemptHistory />
                                 )}
-                            </TabPanel>
-
-                            <TabPanel>
-                                <QuizAttemptHistory />
-                            </TabPanel>
-                        </Tabs>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </MainLayout>

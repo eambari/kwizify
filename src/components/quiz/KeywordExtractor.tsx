@@ -65,7 +65,6 @@ export const KeywordExtractor: React.FC<KeywordExtractorProps> = ({ onExtractCom
                 <Button
                     onClick={handleExtract}
                     disabled={!file || isLoading}
-                    isLoading={isLoading}
                     className="w-full"
                 >
                     {isLoading ? 'Extracting Keywords...' : 'Extract Keywords'}

@@ -14,7 +14,7 @@ export const Loader: React.FC<LoaderProps> = ({ size = 'md', className = '' }) =
 
     return (
         <div className={`flex justify-center items-center ${className}`}>
-            <div className={`animate-spin rounded-full border-t-2 border-b-2 border-blue-500 ${sizeStyles[size]}`}></div>
+            <div className={`loader ${sizeStyles[size]}`}></div>
         </div>
     );
 };
