@@ -158,7 +158,7 @@ export const QuizAttemptHistory: React.FC<QuizAttemptHistoryProps> = ({quizId}) 
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       attempt.completed_at ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                   }`}>
-                    {attempt.completed_at ? 'Completed' : 'In Progress'}
+                    {attempt.completed_at ? 'Completed' : 'Incomplete'}
                   </span>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

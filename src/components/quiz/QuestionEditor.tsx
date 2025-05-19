@@ -216,7 +216,6 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                                     }`}
                                 >
                                     <div className="flex items-center">
-                                        <span className="font-medium mr-2">{String.fromCharCode(65 + idx)}.</span>
                                         <span>{option}</span>
                                         {option === activeQuestion.correct_answer && (
                                             <svg

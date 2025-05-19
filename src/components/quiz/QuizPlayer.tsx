@@ -353,7 +353,6 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({quiz}) => {
                                     onClick={() => handleOptionSelect(option.id, idx)}
                                 >
                                     <div className="flex items-center">
-                                        <span className="font-medium mr-2">{String.fromCharCode(65 + idx)}.</span>
                                         <span className="text-lg">{option.text}</span>
 
                                         {isAnswerSubmitted && isCorrect && (

@@ -20,7 +20,21 @@ export default function CreateQuizPage() {
     const [error, setError] = useState<string | null>(null);
 
     const handleExtractComplete = (data: KeywordResponse) => {
-        setQuestions(data.questions || []);
+        if (data) {
+            const formattedQuestions = data.questions.map(q => {
+                const correctIndex = q.correct_answer.charCodeAt(0) - 'A'.charCodeAt(0);
+
+                const correctAnswerText = q.options[correctIndex];
+
+                return {
+                    question: q.question,
+                    options: q.options,
+                    correct_answer: correctAnswerText
+                };
+            });
+
+            setQuestions(formattedQuestions);
+        } else setQuestions([])
         setStep(2);
     };
 

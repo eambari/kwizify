@@ -167,7 +167,6 @@ export const QuizAttemptDetailView: React.FC<QuizAttemptDetailViewProps> = ({ at
                                         className={optionClass}
                                     >
                                         <div className="flex items-center">
-                                            <span className="font-medium mr-2">{optionLetter}.</span>
                                             <span>{option.text}</span>
 
                                             {isSelected && (

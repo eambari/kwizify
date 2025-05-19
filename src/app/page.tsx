@@ -192,14 +192,16 @@ export default function Home() {
                     <p className="mt-4 text-lg text-blue-100 max-w-3xl mx-auto">
                         Join thousands of students and educators who use Kwizify to enhance their learning experience.
                     </p>
-                    <div className="mt-8">
-                        <Link
-                            href="/signup"
-                            className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 md:text-lg shadow-sm"
-                        >
-                            Get Started for Free
-                        </Link>
-                    </div>
+                    {!isLoggedIn &&
+                        <div className="mt-8">
+                            <Link
+                                href="/signup"
+                                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 md:text-lg shadow-sm"
+                            >
+                                Get Started for Free
+                            </Link>
+                        </div>
+                    }
                 </div>
             </section>
         </MainLayout>
